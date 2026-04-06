@@ -14,3 +14,18 @@ class TestPet:
        with allure.step("Проверка текстового содержимого ответа"):
            assert response.text == "Pet deleted", "Текст ошибки не совпал с ожидаемым"
 
+    @allure.title("Попытка обновить несуществующего питомца")
+    def test_update_nonexistent_pet(self):
+        with allure.step ("Отправка запроса на обновление несуществующего питомца"):
+            payload = {                                                                                                                             #Задаем переменную payload и добавляем туда тело в формате json
+            "id": 9999,
+            "name": "Non-existent Pet",
+            "status": "available"
+        }                                                                                                                                                  #Задаем переменную response с методом put
+            response = requests.put(url=f"{BASE_URL}/pet", json=payload)
+
+        with allure.step("Проверка статуса ответа"):
+            assert response.status_code == 404, "Код ответа не совпал с ожидаемым"
+                                                                                                                                                           #В дебаггере посмотрим какой тест должен быть у атрибута "text" и добавим его в тест
+        with allure.step("Проверка текстового содержимого ответа"):
+            assert response.text == "Pet not found", "Текст ошибки не совпал с ожидаемым"
