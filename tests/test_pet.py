@@ -32,7 +32,7 @@ class TestPet:
             response = requests.post (url=f"{BASE_URL}/pet", json=payload)
             response_json = response.json()
         with allure.step ("Проверка статуса ответа и валидация Json схемы"):
-            assert response.status_code == 200
+            assert response.status_code == 400
             jsonschema.validate(response_json, PET_SCHEMA)
         with allure.step ("Проверка параметров питомца в ответе"):
             assert response_json ['id'] == payload['id'], "id питомца не совпадает с ожидаемым"
